@@ -1,0 +1,53 @@
+html
+{
+    scroll-behavior: smooth;
+}
+body 
+{
+    opacity: 0;
+    visibility: hidden;
+    transition: all .4s;
+    //background: #FDDD93;
+
+    &.is-visible
+    {
+        opacity: 1;
+        visibility: visible;
+        transition: all .4s;
+    }
+}
+
+.container
+{
+    margin: auto;
+}
+
+
+
+.is-blurry
+{
+    filter: blur(8px);
+}
+
+.mobile-hidden
+{
+    display: none;
+    @include breakpoint(min, medium) {
+        display: block;
+    };
+}
+
+.desktop-hidden
+{
+    display: block;
+    @include breakpoint(min, medium) {
+        display: none;
+    };
+}
+
+.bg-custom-grey
+{
+    background: $grey;
+}
+
+

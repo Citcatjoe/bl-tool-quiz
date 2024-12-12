@@ -1,0 +1,21 @@
+{
+	"title": "Iframe teaser whatsapp",
+	"titlesocial": "Iframe teaser whatsapp",
+	"description": "Iframe teaser whatsapp",
+	"authors": {
+		"photos": null,
+		"videos": null,
+		"writer": false,
+		"dev": "César Greppin"
+	},
+	"imgSocial": "social.jpg",
+	"headertheme": "trans", 
+	"blickWhite": false,
+	"blickBlack": true,
+	"headerBoxed": false,
+	"pubDate": "2020-07-23T11:00:00+00:00",
+	"partner": {
+		"logo": "img/empty.png",
+		"link": "https://www.blick.ch/"
+	}
+}
