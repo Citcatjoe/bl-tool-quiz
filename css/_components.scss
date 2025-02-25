@@ -40,7 +40,7 @@
   }
 }
 
-#question.voted #answers .answer:hover .bar { border: 0; }
+#question.voted #answers .answer:hover .bar { border: 2px solid $grey; }
     
  
 .overlay 

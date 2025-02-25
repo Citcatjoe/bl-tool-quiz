@@ -234,7 +234,7 @@ header.headroom--unpinned {
 }
 
 #question.voted #answers .answer:hover .bar {
-  border: 0;
+  border: 2px solid #F7F7F7;
 }
 
 .overlay .spinner {
