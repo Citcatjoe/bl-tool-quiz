@@ -1,3 +1,5 @@
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, deleteField, deleteDoc, getDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 const db = getFirestore();
 const collectionRef = "questions";
@@ -54,17 +56,18 @@ const collectionRef = "questions";
       
       html = `
               <span class="block w-full label1 mb-2">Donnez votre avis!</span>
-              <span class="block antialiased w-full label2 mb-6">${question.questionTxt}</span>
+              <span class="block antialiased w-full label2 mb-4">${question.questionTxt}</span>
               <ul id="answers">`;             
 
       question.answers.forEach((answer, index) => {
           html = html + `
                   <li answer-id="answer${index}" class="answer flex gap-x-2 relative mb-0 cursor-pointer">
-                      <span class="block bar flex-1 bg-white rounded-md">
-                          <span class="block h-full rounded-md"></span>
+                      <span class="relative block bar flex-1 item-center bg-white rounded-md">
+                          <span class="absolute left-0 block h-1 bottom-0 rounded-full"></span>
+                          <p class="label3 left-4 w-10/12 pl-4">${question.answers[index]}</p>
                       </span>
-                      <span class="percent w-16"><span class="percent-value">50</span>%</span>
-                      <span class="absolute label3 left-4 top-1/2 -translate-y-1/2">${question.answers[index]}</span>
+                      <span class="percent absolute right-4 top-1/2 -translate-y-1/2"><span class="percent-value">50</span>%</span>
+                      
                   </li>`;
       });
 
@@ -90,14 +93,16 @@ const collectionRef = "questions";
   // UPDATE COUNTER
   // ------------------------------------------------------------
   var totalVotes = 0;
-  const updateCounter = async (id) => {
+  const updateCounter = async (id) => {  
     try {
       // on essaie de mettre à jour le données en ligne
       await updateDoc(doc(db, collectionRef, docRef), {
         // la réponse ici https://stackoverflow.com/questions/52343935/firestore-security-rules-how-to-prevent-modification-of-a-certain-field
         "counters": {
           ...question[0].counters,
-          [id]: question[0].counters[id] + 1
+          //[id]: question[0].counters[id] + 1
+          [id]: (typeof question[0].counters[id] === 'number' ? question[0].counters[id] : 0) + 1
+        
 
         // "counters": [
         //     10,

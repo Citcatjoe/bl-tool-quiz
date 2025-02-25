@@ -1,10 +1,18 @@
 /*Gerillass mixins*/
+* {
+  box-sizing: border-box !important;
+}
+
 .wrapper {
   width: 100%;
   max-width: 632px;
   padding: 20px 20px 40px 20px;
-  height: 330px;
   background: #F7F7F7;
+}
+@media (max-width: 400px) {
+  .wrapper {
+    padding: 10px 10px 40px 10px;
+  }
 }
 
 /*Colors, fonts, z-index, breakpoints...*/
@@ -68,12 +76,14 @@
 }
 #question .label3 {
   font-family: "blickregular";
-  font-size: 19px;
+  font-size: 16px;
   color: black;
+  padding-top: 13px;
+  padding-bottom: 13px;
 }
 #question .percent {
   font-family: "blickextrabold";
-  font-size: 19px;
+  font-size: 16px;
   color: black;
   opacity: 0;
 }
@@ -201,7 +211,7 @@ header.headroom--unpinned {
 }
 
 #answers .answer {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 #answers .answer:hover .bar {
   border: 2px solid rgb(226, 0, 0);
@@ -210,7 +220,7 @@ header.headroom--unpinned {
   margin-bottom: 0;
 }
 #answers .answer .bar {
-  height: 50px;
+  border: 2px solid #F7F7F7;
 }
 #answers .answer .bar span {
   background: rgb(226, 0, 0);
