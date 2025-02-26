@@ -46,7 +46,7 @@ const collectionRef = "questions";
       const docSnap = await getDoc(questionRef);
   
       if (docSnap.exists()) {
-        console.log("Getting question...");
+        //console.log("Getting question...");
         question = docSnap.data();
         showQuestion(question);
       } else {
@@ -134,7 +134,7 @@ const collectionRef = "questions";
             [`counters.${id}`]: increment(1) // Ajoute 1 sans écraser les autres votes
         });
 
-        console.log("Vote mis à jour avec succès !");
+        //console.log("Vote mis à jour avec succès !");
 
         // 🔄 Relire les données mises à jour pour les afficher
         const updatedDoc = await getDoc(questionRef);
