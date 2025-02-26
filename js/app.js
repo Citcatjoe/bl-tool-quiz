@@ -1,6 +1,6 @@
 
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, deleteField, deleteDoc, getDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, deleteField, deleteDoc, getDoc, getDocs, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 const db = getFirestore();
 const collectionRef = "questions";
 //const docRef = "tQOnsy8lYQ8HJ4OyOlO9";
@@ -23,21 +23,48 @@ const collectionRef = "questions";
   let question = {};
   let unsubscribe; // Declare a variable to store the unsubscribe function
 
-  const getQuestion = async () => {
-    unsubscribe =  await onSnapshot(doc(db, collectionRef, docRef), (docsSnap) => {
-        question = [];
-        question.push(docsSnap.data());
+  // const getQuestion = async () => {
+    
+  //   unsubscribe =  await onSnapshot(doc(db, collectionRef, docRef), (docsSnap) => {
+  //       question = [];
+  //       question.push(docsSnap.data());
+  //       console.log("Getting question...");
+  //       showQuestion(question[0]);
+  //   });
+  // };
+  // getQuestion();
 
-        showQuestion(question[0]);
-    });
+  const getQuestionOnce = async () => {
+    try {
+      if (!docRef) {
+        console.error("Erreur : docRef est vide.");
+        return;
+      }
+  
+      // 🔥 Création correcte de la référence Firestore
+      const questionRef = doc(db, collectionRef, docRef);
+      const docSnap = await getDoc(questionRef);
+  
+      if (docSnap.exists()) {
+        console.log("Getting question...");
+        question = docSnap.data();
+        showQuestion(question);
+      } else {
+        console.log("Aucune question trouvée");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la question :", error);
+    }
   };
-  getQuestion();
+  
+  // Appel de la fonction après que docRef ait été défini
+  getQuestionOnce();
+
 
   
   const stopListening = () => {
     if (unsubscribe) {
-      unsubscribe(); // Stop listening to changes
-      //console.log("Stopped listening to data changes.");
+      unsubscribe(); 
     }
   };
 
@@ -95,35 +122,53 @@ const collectionRef = "questions";
   var totalVotes = 0;
   const updateCounter = async (id) => {  
     try {
-      // on essaie de mettre à jour le données en ligne
-      await updateDoc(doc(db, collectionRef, docRef), {
-        // la réponse ici https://stackoverflow.com/questions/52343935/firestore-security-rules-how-to-prevent-modification-of-a-certain-field
-        "counters": {
-          ...question[0].counters,
-          //[id]: question[0].counters[id] + 1
-          [id]: (typeof question[0].counters[id] === 'number' ? question[0].counters[id] : 0) + 1
-        
-
-        // "counters": [
-        //     10,
-        //     20
-        // ]
-
-          //[`counters.${id}`]: increment(1), // Utilise une mise à jour atomique
-        //[`counters.${id}`]: 10, // Utilise une mise à jour atomique
+        if (!docRef) {
+            console.error("Erreur : docRef est vide.");
+            return;
         }
-      })
-      // si on y arrive, on lance la fonction d'affichage et on arrête d'écouter les changements
-      .then(() => {
-        displayResults(question[0].counters);
-        stopListening();  
-      });
+
+        const questionRef = doc(db, collectionRef, docRef);
+
+        // 🔥 Mise à jour atomique avec increment()
+        await updateDoc(questionRef, {
+            [`counters.${id}`]: increment(1) // Ajoute 1 sans écraser les autres votes
+        });
+
+        console.log("Vote mis à jour avec succès !");
+
+        // 🔄 Relire les données mises à jour pour les afficher
+        const updatedDoc = await getDoc(questionRef);
+        if (updatedDoc.exists()) {
+            displayResults(updatedDoc.data().counters); // ✅ Affichage des nouveaux résultats
+        }
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour du vote :", error);
     }
-    // si on y arrive pas, erreur
-    catch (error) {
-      console.error("Error updating document: ", error);
-    }
-  };
+};
+
+  // const updateCounter = async (id) => {  
+  //   try {
+  //     // on essaie de mettre à jour le données en ligne
+  //     await updateDoc(doc(db, collectionRef, docRef), {
+  //       // la réponse ici https://stackoverflow.com/questions/52343935/firestore-security-rules-how-to-prevent-modification-of-a-certain-field
+  //       "counters": {
+  //         ...question[0].counters,
+  //         [id]: (typeof question[0].counters[id] === 'number' ? question[0].counters[id] : 0) + 1
+        
+      
+  //       }
+  //     })
+  //     // si on y arrive, on lance la fonction d'affichage et on arrête d'écouter les changements
+  //     .then(() => {
+  //       displayResults(question[0].counters);
+  //       stopListening();  
+  //     });
+  //   }
+  //   // si on y arrive pas, erreur
+  //   catch (error) {
+  //     console.error("Error updating document: ", error);
+  //   }
+  // };
 
   // ------------------------------------------------------------
   // DISPLAY RESULTS AFTER VOTE
