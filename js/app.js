@@ -22,6 +22,9 @@ const collectionRef = "questions";
   // ------------------------------------------------------------
   let question = {};
   let unsubscribe; // Declare a variable to store the unsubscribe function
+  const btnDownload = document.getElementById("download"); 
+
+  
 
   // const getQuestion = async () => {
     
@@ -83,7 +86,7 @@ const collectionRef = "questions";
       
       html = `
               <span class="block w-full label1 mb-2">Donnez votre avis!</span>
-              <span class="block antialiased w-full label2 mb-4">${question.questionTxt}</span>
+              <span class="block antialiased w-full label2 mb-4">${question.questionTxt}</span><button id="download">test</button>
               <ul id="answers">`;             
 
       question.answers.forEach((answer, index) => {
@@ -259,5 +262,30 @@ const collectionRef = "questions";
   function setQuestionVoted() {
     $question.classList.add("voted");
   }
+
+
+
+  
+  // ------------------------------------------------------------
+  // DOWNLOAD BUTTON CLICK HANDLER
+  // ------------------------------------------------------------
+$(document).on("click", "#download", function(e) {
+  //alert('test');
+  html2canvas(document.querySelector("#answers")).then(canvas => {
+      // Create canvas with 2x pixel density
+      const scaledCanvas = document.createElement('canvas');
+      const ctx = scaledCanvas.getContext('2d');
+      scaledCanvas.width = canvas.width * 2;
+      scaledCanvas.height = canvas.height * 2;
+      ctx.scale(2, 2);
+      ctx.drawImage(canvas, 0, 0);
+
+      const link = document.createElement('a');
+      link.download = 'poll-results.png';
+      link.href = scaledCanvas.toDataURL('image/png');
+      link.click();
+  });
+});
+
   
 })(jQuery);

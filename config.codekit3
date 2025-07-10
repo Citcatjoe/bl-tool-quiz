@@ -2487,6 +2487,28 @@
       "sC" : 3,
       "tS" : 0
     },
+    "\/js\/html2canvas-min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/html2canvas-min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/html2canvas.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/html2canvas-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/js\/intro-min.js" : {
       "bF" : 0,
       "ft" : 64,
@@ -8977,7 +8999,7 @@
       }
     },
     "esLintSourceType" : 0,
-    "externalServerAddress" : "http:\/\/127.0.0.1:5500\/",
+    "externalServerAddress" : "http:\/\/127.0.0.1:5500",
     "gitIgnoreBuildFolder" : 1,
     "hideConfigFile" : 0,
     "jsCheckerReservedNamesString" : "",
